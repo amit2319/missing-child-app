@@ -1,4 +1,4 @@
-# Missing Child (Help Find Them) - Repo of Android Application
+# Missing Child (Help Find Them) - Android Application
 
 ## Repository of Face-Recognition API: https://github.com/karankapoor229/missing-child
 
