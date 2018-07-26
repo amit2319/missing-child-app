@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "931185342526",
+    "firebase_url": "https://era-offline.firebaseio.com",
+    "project_id": "era-offline",
+    "storage_bucket": "era-offline.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931185342526:android:1b1c6425318b64ad",
+        "android_client_info": {
+          "package_name": "com.faaddemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "931185342526-6c4ivr3aq9sjl52i9nugv16nb5miltgt.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "931185342526-6c4ivr3aq9sjl52i9nugv16nb5miltgt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqzqyq099MIQ8LvgqYRemcan6mD8inOnY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

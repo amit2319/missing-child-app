@@ -1,0 +1,21 @@
+                    if( this.props.navigation.state.params.type == 'Aadhaar'){
+
+                        if(this.props.navigation.state.params.side == 'Front side of Aadhaar'){
+                            this.setState({Aadhar_image_front:url})
+                            navigate("cameraScreen",{
+                                'side': 'Back',
+                                'type': 'Aadhaar'
+                            });
+                        }else
+
+
+                            this.setState()
+                        navigate("cameraScreen",{
+                            'type2': this.props.navigation.state.params.type
+                        });
+
+                    }else{
+
+
+
+                    }
