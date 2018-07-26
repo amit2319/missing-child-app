@@ -29,7 +29,7 @@ https://www.analyticsinsight.net/indian-police-traces-3000-missing-children-usin
 ### Screenshots
 
 **Lost Person Fill Detail**
-<img src="https://github.com/amit2319/missing-child-app/blob/master/asset/img/Screenshot-1.jpg" height="200">
+<img src="https://github.com/amit2319/missing-child-app/blob/master/asset/img/Screenshot-1.jpg" height="800">
 
 **Take a Photo**
-<img src="https://github.com/amit2319/missing-child-app/blob/master/asset/img/Screenshot-2.jpg" height="200">
+<img src="https://github.com/amit2319/missing-child-app/blob/master/asset/img/Screenshot-2.jpg" height="800">
