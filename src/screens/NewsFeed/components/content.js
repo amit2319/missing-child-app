@@ -8,15 +8,15 @@ export default class NewFeed extends Component {
             <TouchableOpacity onPress={this.props.onPressItem}>
                 <Card>
                     <CardItem cardBody>
-                        <Image source={{uri: 'https://pbs.twimg.com/profile_images/909953369694859265/BOakwKQY_400x400.jpg'}} style={{height: 200, width: null, flex: 1}}/>
+                        <Image source={{uri: this.props.image}} style={{height: 200, width: null, flex: 1}}/>
                     </CardItem>
 
                     <CardItem>
                         <Left>
-                            <Text style={{fontSize:30}}>21</Text>
+                            <Text style={{fontSize:30}}>{this.props.age}</Text>
                             <Body>
-                            <Text>NativeBase</Text>
-                            <Text note>GeekyAnts</Text>
+                            <Text>{this.props.name}</Text>
+                            <Text note>{this.props.place_of_missing}</Text>
                             </Body>
                         </Left>
                     </CardItem>

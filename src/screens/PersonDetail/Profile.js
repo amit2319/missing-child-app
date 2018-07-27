@@ -96,37 +96,21 @@ const styles = StyleSheet.create({
 })
 
 class Contact extends Component {
-  static propTypes = {
-    avatar: PropTypes.string.isRequired,
-    avatarBackground: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    address: PropTypes.shape({
-      city: PropTypes.string.isRequired,
-      country: PropTypes.string.isRequired,
-    }).isRequired,
-    emails: PropTypes.arrayOf(
-      PropTypes.shape({
-        email: PropTypes.string.isRequired,
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    tels: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        number: PropTypes.string.isRequired,
-      })
-    ).isRequired,
+
+  constructor(props){
+    super(props);
+    this.props = props;
   }
+
+componentWillMount(){
+  console.log(this.props.navigation);
+}
 
   state = {
     telDS: new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
-    }).cloneWithRows(this.props.tels),
-    emailDS: new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    }).cloneWithRows(this.props.emails),
+    }).cloneWithRows(this.props.navigation.item.phone_number),
+
   }
 
   onPressPlace = () => {
@@ -149,11 +133,17 @@ class Contact extends Component {
 
   renderHeader = () => {
     const {
-      avatar,
-      avatarBackground,
-      name,
-      address: { city, country },
-    } = this.props
+        place_of_missing,
+        guardian_name,
+        child_name,
+        image_url,
+        age,
+        phone_number,
+      // avatar,
+      // avatarBackground,
+      // name,
+      // address: { city, country },
+    } = this.props.navigation.item
 
     return (
       <View style={styles.headerContainer}>
@@ -161,17 +151,17 @@ class Contact extends Component {
           style={styles.headerBackgroundImage}
           blurRadius={10}
           source={{
-            uri: avatarBackground,
+            uri: "https://orig00.deviantart.net/dcd7/f/2014/027/2/0/mountain_background_by_pukahuna-d73zlo5.png",
           }}
         >
           <View style={styles.headerColumn}>
             <Image
               style={styles.userImage}
               source={{
-                uri: avatar,
+                uri: image_url,
               }}
             />
-            <Text style={styles.userNameText}>{name}</Text>
+            <Text style={styles.userNameText}>{child_name}</Text>
             <View style={styles.userAddressRow}>
               <View>
                 <Icon
@@ -183,7 +173,7 @@ class Contact extends Component {
               </View>
               <View style={styles.userCityRow}>
                 <Text style={styles.userCityText}>
-                  {city}, {country}
+                    {place_of_missing}
                 </Text>
               </View>
             </View>
@@ -196,7 +186,7 @@ class Contact extends Component {
   renderTel = () => (
     <ListView
       contentContainerStyle={styles.telContainer}
-      dataSource={this.state.telDS}
+      dataSource={phone_number}
       renderRow={({ id, name, number }, _, k) => {
         return (
           <Tel
@@ -212,23 +202,23 @@ class Contact extends Component {
     />
   )
 
-  renderEmail = () => (
-    <ListView
-      contentContainerStyle={styles.emailContainer}
-      dataSource={this.state.emailDS}
-      renderRow={({ email, id, name }, _, k) => {
-        return (
-          <Email
-            key={`email-${id}`}
-            index={k}
-            name={name}
-            email={email}
-            onPressEmail={this.onPressEmail}
-          />
-        )
-      }}
-    />
-  )
+  // renderEmail = () => (
+  //   <ListView
+  //     contentContainerStyle={styles.emailContainer}
+  //     dataSource={this.state.emailDS}
+  //     renderRow={({ email, id, name }, _, k) => {
+  //       return (
+  //         <Email
+  //           key={`email-${id}`}
+  //           index={k}
+  //           name={name}
+  //           email={email}
+  //           onPressEmail={this.onPressEmail}
+  //         />
+  //       )
+  //     }}
+  //   />
+  // )
 
   render() {
     return (
@@ -238,7 +228,7 @@ class Contact extends Component {
             {this.renderHeader()}
             {this.renderTel()}
             {Separator()}
-            {this.renderEmail()}
+            {/*{this.renderEmail()}*/}
           </Card>
         </View>
       </ScrollView>

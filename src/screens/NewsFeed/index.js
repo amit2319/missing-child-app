@@ -17,7 +17,25 @@ export default class NewsFeed extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            data : []
+        }
 
+    }
+
+    componentWillMount(){
+        fetch("https://faceapi.bharatchain.org/missing-children-list/", {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((resp) => resp.json()) // Transform the data into json
+            .then( (data) => {
+                this.setState({data : data.children});
+                //do something awesome that makes the world a better place
+            });
     }
 
     _keyExtractor = (item, index) => index;
@@ -30,10 +48,11 @@ export default class NewsFeed extends Component {
 
     _renderItem = ({item}) => (
         <Content
-            onPressItem={this._onPressItem}
-            // image={item.image}
-            // name={item.name}
-            // age={item.age}
+            onPressItem={()=>this._onPressItem(item)}
+            image={item.image_url}
+            name={item.child_name}
+            age={item.age}
+            place_of_missing = {item.place_of_missing}
         />
     );
 
@@ -41,7 +60,7 @@ export default class NewsFeed extends Component {
         return (
             <Container style={styles.container}>
                 <FlatList
-                    data={[{title: 'Title Text', key: 'item1'},{title: 'Title Text', key: 'item2'},{title: 'Title Text', key: 'item3'}]}
+                    data={this.state.data}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderItem}
                 />

@@ -110,11 +110,15 @@ class Login extends Component {
             addressValidation : false,
             pinValidation:false,
             mobileValidation : false,
+            guardiannameValidation : false,
             fullName : null,
             address : null,
             address2 : null,
             pin : null,
-            mobile : null
+            mobile : null,
+            guardianfullName : null,
+            ageValidation:false,
+            age : null
         };
         this._datePick = this._datePick.bind(this);
     }
@@ -122,11 +126,12 @@ class Login extends Component {
 
     _getSubmitAction = () => {
 
-        const {nameValidation , addressValidation , date , pinValidation , gender,mobile} = this.state;
-        if(nameValidation && addressValidation && date && pinValidation && gender && mobile){
+        const {nameValidation , addressValidation ,ageValidation,
+            age , pinValidation , gender,mobile,guardianfullName} = this.state;
+        if(nameValidation && addressValidation && ageValidation && pinValidation && gender && mobile && guardianfullName){
 
             const {navigate} = this.props.navigation;
-            navigate('cameraScreen',{type:'Lost'})
+            navigate('cameraScreen',{type:'Lost',name:this.state.fullName,age:this.state.age,phonenumber:this.state.mobile,guardianfullName : this.state.guardianfullName})
 
         }else{
             Snackbar.show({
@@ -150,6 +155,7 @@ class Login extends Component {
            pinCode : Data.pinCode ,
            dob : this.state.date ,
            gender : this.state.gender,
+
        }
        this.props.setUserLoginDataInState(userData);
     }
@@ -205,6 +211,23 @@ class Login extends Component {
             this.setState({mobileValidation: true ,  mobile: mobile});
         }else{
             this.setState({mobileValidation: false});
+        }
+    }
+    _onChangeGuardianName = (name)=>{
+        let reg = /^[A-Za-z\s]+$/;
+        if(reg.test(name) === true){
+            this.setState({gaurdiannameValidation:true , guardianfullName : name});
+        }else{
+            this.setState({gaurdiannameValidation:false});
+        }
+    }
+
+    _onChangeAge = (age) =>{
+        let reg = /^[0-9]+$/;
+        if(reg.test(age)){
+            this.setState({ageValidation: true ,  age: age});
+        }else{
+            this.setState({ageValidation: false});
         }
     }
 
@@ -265,13 +288,38 @@ class Login extends Component {
                         style={styles.parentTextInput}
                     >
                         <TextInput
+                            ref={"gaurdianfullName"}
+                            name={"gaurdianfullName"}
+                            type={"TextInput"}
+                            underlineColorAndroid={"transparent"}
+                            autoCapitalize={"words"}
+                            autoCorrect={false}
+                            onChangeText={(name) =>this._onChangeGuardianName(name)}
+                            placeholder={"Guardian Full Name"}
+                            keyboardType={"default"}
+                            style={[styles.textInput, textStyle]}
+                            returnKeyType="next"
+                            placeholderTextColor={inputColor}
+                            selectionColor={brandColor}
+                            maxLength={50} //StaticFile
+                            onSubmitEditing={()=>this.refs.form.refs.address.focus()}
+                        />
+
+                        {this.state.gaurdiannameValidation ? <SuccesIcon name={'check'} size={20} style={styles.iconSuccess}/>
+                            : <CrossIcon name ={'cross'} size={20} style={styles.iconError}/>}
+                    </View>
+
+                    <View
+                        style={styles.parentTextInput}
+                    >
+                        <TextInput
                             ref={"address"}
                             name={"address"}
                             type={"TextInput"}
                             underlineColorAndroid={"transparent"}
                             autoCorrect={false}
                             onChangeText={(address)=>this._onChangeAddress(address)}
-                            placeholder={"Address"}
+                            placeholder={"Place of Missing"}
                             keyboardType={"default"}
                             style={[styles.textInput, textStyle, { flex: 1 }]}
                             returnKeyType="next"
@@ -304,24 +352,45 @@ class Login extends Component {
                     {/*{!this.state.addressValidation? <Text style={{color:'red'}}>Please Enter A Valid Address</Text>
                         :<Text style={{color:'green'}}>This is Valid</Text>}*/}
 
-                    <DateTimePickerTester datePick={this._datePick}>
-                        <View
-                            style={{ flexDirection: "row", justifyContent: "space-between" }}
-                        >
-                            <Text
-                                type={"TextInput"}
-                                ref={"DOB"}
-                                name={"DOB"}
-                                style={[styles.textInput,styles.datePicker]}
-                            >
-                                {" "}
-                                {this.state.date ? this.state.date : "DOB in DD/MM/YYYY"}
-                            </Text>
-                        </View>
-                        {/*{this.state.date ? <SuccesIcon name={'check'} size={20} color={'green'}/>
-                            : <CrossIcon name ={'cross'} size={20} color={'red'}/>}*/}
-                    </DateTimePickerTester>
-
+                    {/*<DateTimePickerTester datePick={this._datePick}>*/}
+                        {/*<View*/}
+                            {/*style={{ flexDirection: "row", justifyContent: "space-between" }}*/}
+                        {/*>*/}
+                            {/*<Text*/}
+                                {/*type={"TextInput"}*/}
+                                {/*ref={"DOB"}*/}
+                                {/*name={"DOB"}*/}
+                                {/*style={[styles.textInput,styles.datePicker]}*/}
+                            {/*>*/}
+                                {/*{" "}*/}
+                                {/*{this.state.date ? this.state.date : "DOB in DD/MM/YYYY"}*/}
+                            {/*</Text>*/}
+                        {/*</View>*/}
+                        {/*/!*{this.state.date ? <SuccesIcon name={'check'} size={20} color={'green'}/>*/}
+                            {/*: <CrossIcon name ={'cross'} size={20} color={'red'}/>}*!/*/}
+                    {/*</DateTimePickerTester>*/}
+                    <View
+                        style={styles.parentTextInput}
+                    >
+                        <TextInput
+                            ref={"age"}
+                            name={"age"}
+                            type={"TextInput"}
+                            underlineColorAndroid={"transparent"}
+                            autoCorrect={false}
+                            onChangeText={(age)=>this._onChangeAge(age)}
+                            placeholder={"Age"}
+                            keyboardType={"numeric"}
+                            style={[styles.textInput, textStyle, { flex: 1 }]}
+                            returnKeyType="next"
+                            placeholderTextColor={inputColor}
+                            selectionColor={brandColor}
+                            maxLength={3} //StaticFile
+                            minLength={1}
+                        />
+                        {this.state.ageValidation ? <SuccesIcon name={'check'} size={20} style={styles.iconSuccess}/>
+                            : <CrossIcon name ={'cross'} size={20} style={styles.iconError}/>}
+                    </View>
                     <View
                         style={styles.parentTextInput}
                     >

@@ -12,6 +12,7 @@ import Response from './src/screens/Response';
 import Login from './src/screens/login';
 import UserProfile from './src/screens/PersonDetail';
 import NewsFeed from './src/screens/NewsFeed';
+import UnknownFind from './src/screens/UnknownFind';
 
 const activityIcon = ({ tintColor }) => <FeatherIcon name="activity" size={25} color={tintColor} />;
 const cardsIcon = ({ tintColor }) => <MaterialIcon name="cards" size={25} color={tintColor} />;
@@ -117,6 +118,12 @@ const FoundNavigator = createStackNavigator({
                 title : 'Take a photo'
             }
 
+        },
+        Unknown : {
+          screen :UnknownFind,
+            navigationOptions:{
+                title : 'No Match Found! Help Locating'
+            }
         },
         Profile :{
             screen : UserProfile,

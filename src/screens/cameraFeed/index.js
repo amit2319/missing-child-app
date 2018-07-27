@@ -26,7 +26,9 @@ class SelfieVerification extends Component {
 
     }
 
-
+    componentDidMount(){
+        console.log(this.props);
+    }
 
     render() {
         return (
@@ -105,7 +107,7 @@ class SelfieVerification extends Component {
         console.log(image);
         let filename;
         try{
-            if(this.props.navigation.params.type === 'Lost'){
+            if(this.props.navigation.state.params.type === 'Lost'){
                 filename = "Selfie/Lost";
             }
         }
@@ -124,8 +126,6 @@ class SelfieVerification extends Component {
         return imageRef
             .put(image, {contentType: mime})
             .then(() => {
-                this.setState({spinner: false});
-                navigate('response')
                 return imageRef.getDownloadURL();
             })
             .then(url => {
@@ -158,7 +158,80 @@ class SelfieVerification extends Component {
                     });*/
                 if (url) {
                     console.log(url);
+                    try{
 
+                        if(this.props.navigation.state.params.type === "Lost"){
+                            const {name,age,guardianfullName,phonenumber} = this.props.navigation.state.params;
+                            fetch("https://faceapi.bharatchain.org/create-missing/", {
+                                method: "POST",
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+
+                                //make sure to serialize your JSON body
+                                body: JSON.stringify({
+                                    phoneNumber: phonenumber,
+                                    imageUrl: url,
+                                    childName:name,
+                                    guardianName:guardianfullName,
+                                    age : age
+                                })
+                            })
+                              .then( (res) => res.json())
+                             .then( (response) => {
+                                 this.setState({spinner: false});
+                                 navigate('response')
+                                    //do something awesome that makes the world a better place
+                             });
+
+
+                        }
+                    }
+                    catch(err){
+
+                        fetch("https://faceapi.bharatchain.org/find-missing", {
+                            method: "POST",
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+
+                            //make sure to serialize your JSON body
+                            body:  JSON.stringify({
+                                imageUrl: url
+                            })
+                        })
+                            .then( (res) => res.json())
+                            .then((response) => {
+                                console.log(response)
+                                if(response.status) {
+                                    fetch("https://faceapi.bharatchain.org/get-child/"+response.result, {
+                                        method: "GET",
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json'
+                                        }
+                                    })
+                                        .then( (res) => res.json())
+                                        .then( (response) => {
+                                            console.log(response);
+                                            this.setState({spinner: false});
+                                            navigate('Profile', {item: response.children_data[0]})
+                                        })
+                                }
+                                else{
+                                    this.setState({spinner: false});
+                                    navigate('Unknown',{'img_url':url})
+                                }
+                                //do something awesome that makes the world a better place
+                            })
+                            .catch(err=>{
+                              console.log(err);
+                            });
+
+
+                    }
 
 
                 }
